@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CreateArticle = () => {
-    const handleSubmit = () => {
-        console.log("submit");
+    const [ title, setTitle ] = useState("");
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("titre : ", title);
+    }
+
+    const handleChange = (event) => {
+        console.log("target name  : ", event.target.name);
+        console.log("target value : ", event.target.value);
+
+        setTitle(event.target.value.substring(0, 10));
     }
 
     return (
@@ -10,6 +20,8 @@ const CreateArticle = () => {
             <input
                 type="text"
                 name="title"
+                onChange={handleChange}
+                value={title}
                 placeholder="titre de l'article"
             />
             <textarea
