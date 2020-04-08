@@ -11,15 +11,36 @@ const CreateArticle = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("titre : ", title);
-        console.log("content : ", content);
-        console.log("author : ", author);
-    }
+
+        fetch('http://localhost:3001/api/articles/create', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                title,
+                content,
+                author,
+            }),
+        })
+        .then((result) => {
+            return result.json();
+        })
+        .then(({ status }) => {
+            if (status === "OK") {
+                setTitle("");
+                setContent("");
+                setAuthor("");
+            }
+            console.log(status);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
 
     const handleChange = (event) => {
-        console.log("target name  : ", event.target.name);
-        console.log("target value : ", event.target.value);
-
         switch(event.target.name) {
             case "title":
                 setTitle(event.target.value);
@@ -32,7 +53,7 @@ const CreateArticle = () => {
                 break;
             // no default
         }
-    }
+    };
 
     return (
         <Container>
@@ -67,7 +88,7 @@ const CreateArticle = () => {
                 <Button variant="primary" type="submit">Créer l'article</Button>
             </Form>
         </Container>
-    )
+    );
 };
 
 export default CreateArticle;
